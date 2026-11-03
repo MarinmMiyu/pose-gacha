@@ -279,6 +279,7 @@ async function save(){
   catch(e){msg="保存できませんでした（"+(e&&e.code||"エラー")+"）。もう一度試すか、Claudeに頼んでください";render();}
 }
 render();
+fetch("config.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(j=>{if(j&&typeof j==="object"){["basic","adv","spicy"].forEach(k=>{if(typeof j[k]==="boolean")cfg[k]=j[k]});render()}}).catch(()=>{});
 })();
 </script>
 
