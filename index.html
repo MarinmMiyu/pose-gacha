@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>マリンのポーズガチャ</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap">
+<style id="st">
+/* レイアウト：スマホ1画面に「ガチャ機→出たカード→Xへの導線」を縦に積む。カプセルトイ売り場の色 */
+:root{
+  --bg:#fff4f8; --paper:#ffffff; --ink:#3b2232; --sub:#7d5b6e; --line:#f2d3e1;
+  --accent:#e64f8d; --accent-ink:#ffffff; --lav:#8b76df; --dome:#fde7f0;
+  --n:#8f8a93; --r:#3f8fd8; --sr:#9b5de5; --ssr:#e0a100; --spicy:#e2445c;
+  --shadow:0 10px 30px rgba(170,60,110,.14);
+  --f-display:"Mochiy Pop One","M PLUS Rounded 1c","Hiragino Maru Gothic ProN",sans-serif;
+  --f-body:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Sans","Noto Sans JP",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1d1219; --paper:#2a1b24; --ink:#fbe9f1; --sub:#d0afc0; --line:#47303d;
+  --accent:#ff6fa6; --accent-ink:#2a0f1c; --lav:#b3a3ff; --dome:#3a2431;
+  --n:#b9b3bd; --r:#7cbcff; --sr:#c79bff; --ssr:#ffcc4d; --spicy:#ff7a8c;
+  --shadow:0 10px 30px rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1d1219; --paper:#2a1b24; --ink:#fbe9f1; --sub:#d0afc0; --line:#47303d;
+  --accent:#ff6fa6; --accent-ink:#2a0f1c; --lav:#b3a3ff; --dome:#3a2431;
+  --n:#b9b3bd; --r:#7cbcff; --sr:#c79bff; --ssr:#ffcc4d; --spicy:#ff7a8c;
+  --shadow:0 10px 30px rgba(0,0,0,.35); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;
+  background-image:radial-gradient(var(--line) 1.6px,transparent 1.7px);background-size:22px 22px}
+.wrap{max-width:560px;margin:0 auto;padding-block:20px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:18px}
+header{text-align:center}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--sub);font-weight:700}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(28px,8vw,40px);line-height:1.2;margin:4px 0 6px;text-wrap:balance;color:var(--accent)}
+.lead{margin:0;color:var(--sub);font-size:14px}
+/* ガチャ機 */
+.machine{background:var(--paper);border-radius:28px;box-shadow:var(--shadow);padding:22px 18px 20px;display:flex;flex-direction:column;align-items:center;gap:14px;border:3px solid var(--accent)}
+.dome{width:min(240px,70vw);aspect-ratio:1;max-width:100%;border-radius:50%;background:var(--dome);border:6px solid var(--accent);position:relative;overflow:hidden}
+.cap{position:absolute;width:24%;aspect-ratio:1;border-radius:50%;background:linear-gradient(180deg,var(--c) 50%,var(--paper) 50%);border:2px solid rgba(0,0,0,.08)}
+.machine.shake .dome{animation:shake .9s ease-in-out}
+@keyframes shake{0%,100%{transform:rotate(0)}15%{transform:rotate(-7deg)}30%{transform:rotate(6deg)}45%{transform:rotate(-5deg)}60%{transform:rotate(4deg)}75%{transform:rotate(-2deg)}}
+.slot{display:flex;align-items:center;gap:10px;color:var(--sub);font-size:13px}
+.pool{font-variant-numeric:tabular-nums}
+.btn{appearance:none;border:0;border-radius:999px;font-family:var(--f-display);font-size:20px;padding:14px 30px;background:var(--accent);color:var(--accent-ink);cursor:pointer;box-shadow:0 5px 0 rgba(120,20,60,.35);transition:transform .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(120,20,60,.35)}
+.btn:focus-visible,.link:focus-visible,.tg input:focus-visible+span{outline:3px solid var(--lav);outline-offset:3px}
+.btn[disabled]{opacity:.5;cursor:default}
+/* 結果カード */
+.card{background:var(--paper);border-radius:22px;box-shadow:var(--shadow);padding:20px;display:flex;flex-direction:column;gap:10px;border:3px solid var(--rc,var(--line));position:relative}
+.card.pop{animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.6);opacity:.2}to{transform:scale(1);opacity:1}}
+.card.ssr{background:linear-gradient(var(--paper),var(--paper)) padding-box,linear-gradient(120deg,#ff7eb3,#ffd166,#7ee8fa,#b388ff,#ff7eb3) border-box;border-color:transparent}
+.tags{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.rar{font-family:var(--f-display);font-size:18px;color:var(--paper);background:var(--rc);border-radius:10px;padding:0 12px;line-height:1.7}
+.tag{font-size:12px;font-weight:700;border-radius:999px;padding:1px 10px;border:1.5px solid var(--line);color:var(--sub)}
+.tag.sp{border-color:var(--spicy);color:var(--spicy)}
+.card h2{font-family:var(--f-display);font-weight:400;font-size:24px;line-height:1.35;margin:0;text-wrap:balance}
+.card ol{margin:0;padding-left:1.4em}
+.card li{margin:2px 0}
+.cam{font-size:13px;color:var(--sub);background:var(--bg);border-radius:12px;padding:8px 12px}
+.cam b{color:var(--ink)}
+.placeholder{color:var(--sub);text-align:center;padding:26px 10px}
+.placeholder .q{font-family:var(--f-display);font-size:44px;color:var(--line);line-height:1}
+.hist{display:flex;flex-wrap:wrap;gap:6px;font-size:12px}
+.hist span{background:var(--paper);border:1.5px solid var(--line);border-radius:999px;padding:1px 9px;color:var(--sub)}
+/* Xへの導線 */
+.dm{background:var(--accent);color:var(--accent-ink);border-radius:22px;padding:18px;text-align:center;display:flex;flex-direction:column;gap:8px}
+.dm strong{font-family:var(--f-display);font-weight:400;font-size:22px;line-height:1.35}
+.link{display:inline-block;background:var(--paper);color:var(--accent);font-weight:800;text-decoration:none;border-radius:999px;padding:10px 22px;align-self:center}
+.dm small{opacity:.9}
+details{background:var(--paper);border-radius:18px;padding:12px 16px;border:1.5px solid var(--line)}
+summary{cursor:pointer;font-weight:800}
+.list{display:grid;gap:4px;margin-top:8px;font-size:13px}
+.list div{display:flex;gap:8px;align-items:baseline}
+.list b{min-width:3.2em;font-family:var(--f-display);font-weight:400}
+.proof{display:flex;gap:12px;align-items:center;border-top:2px dashed var(--line);padding-top:12px;font-size:13px;color:var(--sub)}
+.proof b{color:var(--ink);font-size:15px}
+.qrbox{flex:none;background:#fff;padding:8px;border-radius:12px;min-width:60px;min-height:60px;display:grid;place-items:center}
+.qrbox img,.qrbox canvas{display:block;width:120px;height:120px}
+.vn{display:flex;flex-direction:column;gap:6px;background:var(--paper);border:3px solid var(--lav);border-radius:20px;padding:14px 16px;font-size:13px;color:var(--sub)}
+.vn-hd{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:15px;color:var(--ink)}
+.vn-badge{background:var(--lav);color:var(--paper);font-family:var(--f-display);border-radius:999px;padding:2px 12px;font-size:15px}
+.vn label{font-weight:800;color:var(--ink)}
+.opt{margin-left:8px;font-size:12px;font-weight:700;color:var(--lav);border:1.5px solid var(--lav);border-radius:999px;padding:0 8px}
+.bad{color:var(--spicy);font-size:12px;font-weight:700}
+.vn-steps{margin:2px 0 0;padding-left:1.2em;line-height:1.6}
+.vn-steps b{color:var(--lav)}
+.vn-steps .em{font-weight:800;color:var(--lav)}
+.vn input{font:inherit;font-size:16px;color:var(--ink);background:var(--paper);border:2px solid var(--line);border-radius:12px;padding:8px 12px}
+.vn input:focus-visible{outline:3px solid var(--lav);outline-offset:2px}
+.note{font-size:12px;color:var(--sub);text-align:center;margin:0}
+/* 持ち主だけの設定 */
+.owner{background:var(--paper);border:2px dashed var(--lav);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.owner h3{margin:0;font-size:15px;color:var(--lav)}
+.tgs{display:flex;flex-wrap:wrap;gap:8px}
+.tg{display:flex;align-items:center;gap:6px;cursor:pointer}
+.tg input{position:absolute;opacity:0;pointer-events:none}
+.tg span{border:2px solid var(--line);border-radius:999px;padding:4px 14px;font-weight:700;color:var(--sub)}
+.tg input:checked+span{background:var(--lav);border-color:var(--lav);color:var(--paper)}
+.owner .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.small{font-family:var(--f-body);font-size:14px;padding:8px 18px;box-shadow:none;background:var(--lav)}
+.msg{font-size:13px;color:var(--sub)}
+@media (prefers-reduced-motion: reduce){.machine.shake .dome,.card.pop{animation:none}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head><body>
+<div id="app"></div>
+<script type="application/json" id="cfg">{"basic":true,"adv":true,"spicy":false}</script>
+<script id="main">
+(function(){
+const X_URL="https://x.com/yzO8DLeo0kAUBzf";
+const STAMP_URL="https://claude.ai/artifact/31R9YyZxE1qjhRt88bn26Y";
+let vname="",vx="";try{vname=localStorage.getItem("gacha-name")||"";vx=localStorage.getItem("gacha-x")||""}catch(e){}
+const normX=t=>{t=String(t||"").trim();const m=/(?:x|twitter)\.com\/([A-Za-z0-9_]{1,15})/i.exec(t);if(m)return m[1];t=t.replace(/^@/,"");return /^[A-Za-z0-9_]{1,15}$/.test(t)?t:""};
+const hex=t=>Array.from(new TextEncoder().encode(t)).map(b=>b.toString(16).padStart(2,"0")).join("");
+const W={N:50,R:30,SR:15,SSR:5};
+const RC={N:"var(--n)",R:"var(--r)",SR:"var(--sr)",SSR:"var(--ssr)"};
+const CAT={basic:"基本",adv:"上級",spicy:"攻め"};
+// ポーズ：n=名前 r=レア度 c=区分 two=2人用 how=やり方 cam=撮り方
+const P=[
+{n:"斜め立ち・顔だけカメラ",r:"N",c:"basic",how:["体を45度ななめに向けて立つ","顔だけカメラに向ける","肩の力をぬいて、首を長く見せる"],cam:"目の高さから、頭〜太ももまで"},
+{n:"首かしげスマイル",r:"N",c:"basic",how:["頭を少しだけ横にかたむける","口角だけ上げてほほえむ"],cam:"寄りで顔〜胸。少し上からだと小顔に"},
+{n:"猫の手",r:"N",c:"basic",how:["片手を軽くにぎってほおの横へ","首をかしげて上目づかい"],cam:"少し上から、顔〜胸"},
+{n:"あごに人差し指",r:"N",c:"basic",how:["人差し指をあごに当てる","首をかしげて「待ってるね」の顔"],cam:"胸から上、正面"},
+{n:"顔の横でパー",r:"N",c:"basic",how:["指をそろえて、手のひらを顔のすぐ横に","にっこり笑う（バイバイの形）"],cam:"上から顔のアップ"},
+{n:"ハートポーズ",r:"N",c:"basic",how:["両手でハートを作る","胸の前か、顔の横に置く"],cam:"胸から上"},
+{n:"もじもじ",r:"N",c:"basic",how:["両手を体の前で組む（小道具なら横に持つ）","肩をすくめて、上目づかいで困り顔"],cam:"正面・目の高さ"},
+{n:"体育座りで小さく",r:"N",c:"basic",how:["両ひざを胸に引き寄せて抱える","顔は横か、上目でカメラ"],cam:"少し上から全身"},
+{n:"段差に浅く座る",r:"N",c:"basic",how:["段差やベンチに浅く腰かける","片脚を前に出し、手はひざの上"],cam:"目の高さから全身"},
+{n:"横座りで片手を後ろに",r:"N",c:"basic",how:["床に横座りする","片手を後ろの床について体を少し倒す"],cam:"少し上から全身"},
+{n:"振り返り",r:"R",c:"basic",how:["背中をカメラに向けて立つ","肩ごしに振り返る","片脚を少し後ろに引く"],cam:"腰の高さから全身"},
+{n:"空を見上げる",r:"R",c:"basic",how:["横向きに立ってあごを上げる","空を見上げて首を長く見せる"],cam:"下から、顔〜胸のアップ"},
+{n:"片手を高く上げる",r:"R",c:"basic",how:["片手を真上へまっすぐ上げる","もう片手は頭の横、目線も上へ"],cam:"低めの位置から全身"},
+{n:"頬杖しゃがみ",r:"R",c:"basic",how:["しゃがんでひざをそろえ、斜めに倒す","片手で頬杖、もう片手はひざへ"],cam:"低めから全身"},
+{n:"指ピストルでバン！",r:"R",c:"basic",how:["両腕をのばして指で銃の形","カメラを狙って片目をつぶる"],cam:"手を手前に大きく。ピントは目に"},
+{n:"うつ伏せで脚パタパタ",r:"R",c:"basic",how:["うつ伏せになり、両手であごを支える","ひざから下を上げてパタパタ"],cam:"地面すれすれの低さから"},
+{n:"手のひらを差し出す",r:"R",c:"basic",how:["手のひらを上にしてカメラへ差し出す","目を閉じてにっこり"],cam:"胸から上、正面"},
+{n:"てへっ前かがみ",r:"R",c:"basic",how:["上半身を少し前に倒す","片手を胸の前でにぎり、ひざは内股"],cam:"正面から少し斜め、全身"},
+{n:"小道具を肩にかつぐ",r:"R",c:"basic",how:["武器や小道具を肩にかつぐ","もう片手は腰。あごを少し上げて強気に"],cam:"少し下から、太ももまで"},
+{n:"一緒にハート",r:"N",c:"basic",two:true,how:["2人で片手ずつ出してハートを作る","顔を少し寄せる"],cam:"2人の胸から上"},
+{n:"背中合わせ",r:"R",c:"basic",two:true,how:["2人で背中を合わせて立つ","それぞれ外側を向いて腕を組むか、小道具を構える"],cam:"低めから全身"},
+{n:"高低差の三角形",r:"R",c:"basic",two:true,how:["1人は手前でしゃがむ、1人は後ろで立つ","2人の頭で三角形を作る"],cam:"低めから少し見上げる"},
+{n:"ゲームの着地",r:"SR",c:"adv",how:["低くしゃがんで、片手を地面につく","もう片腕は後ろへのばして手を開く","顔だけカメラを見上げる"],cam:"少し上から斜め。跳ばずにしゃがんでから形を作る"},
+{n:"剣を斜めに構える",r:"SR",c:"adv",how:["腰を落として体をひねる","武器を両手で斜めに構える","目線は武器の先"],cam:"太ももまで、目の高さ"},
+{n:"片ひざ狙撃",r:"SR",c:"adv",how:["片ひざをつき、もう片ひざを立てる","銃（なければ両手）を構えてのぞく"],cam:"横から、または銃口側から少しずらす"},
+{n:"振りかぶり",r:"SR",c:"adv",how:["小道具を肩の上から後ろへ振りかぶる","反対の腕を横にまっすぐのばす","眉を上げて口を開ける"],cam:"腰から上、少し下から"},
+{n:"脚を組んで女王座り",r:"SR",c:"adv",how:["深く座って脚を高く組む","小道具を床に立てて片手を乗せる","あごを上げて見下ろす"],cam:"少し低めから全身"},
+{n:"地面に手をついてにらむ",r:"SR",c:"adv",how:["四つんばいから上半身を低く落とす","指を曲げて地面をつかむ","歯を食いしばって上目でにらむ"],cam:"地面すれすれ、正面"},
+{n:"片ひざを上げて踏み出す",r:"SR",c:"adv",how:["段差に片足を乗せ、ひざを前へ","小道具を頭の後ろで振りかぶる"],cam:"正面の全身、少し下から"},
+{n:"手すりに腰かけて指サイン",r:"SR",c:"adv",how:["手すりに浅く腰かけて片ひざを上げる","小道具を体の前で斜めに立てる","もう片手は胸の前で指サイン"],cam:"少し下から、腰から上"},
+{n:"手の甲で口元をかくす",r:"SR",c:"adv",how:["まっすぐ立って、手の甲で口元をかくす","もう片手は小道具を下げる","ひざを内に寄せて片ひざを少し曲げる"],cam:"腰くらいの低めから、左右対称に"},
+{n:"銃をカメラに向けて低く",r:"SR",c:"adv",how:["両腕をまっすぐのばして銃（指）をカメラへ","片ひざを曲げて低く構える"],cam:"銃口が正面。手前の手を大きく"},
+{n:"片脚を後ろへ蹴り上げる",r:"SSR",c:"adv",how:["片脚で立ち、もう片脚を後ろへ蹴り上げる","両腕を大きく広げる"],cam:"下から全身。連写で一番高い瞬間を"},
+{n:"ジャンプで突き上げ",r:"SSR",c:"adv",how:["片手を真上に突き上げてジャンプ","片足を後ろに跳ね上げる"],cam:"横から少し斜め。連写で"},
+{n:"階段に寝そべって振り返る",r:"SSR",c:"adv",how:["階段に横向きに寝そべり、ひじで体を支える","脚は曲げて上の段へ流す","肩ごしにカメラへ振り返る"],cam:"階段の下の方から全身。人通りに注意"},
+{n:"槍を頭上で斜めに",r:"SSR",c:"adv",how:["長い小道具を頭の上を通して斜めに構える","ひじを高く上げる","腰をひねってS字ライン"],cam:"腰の高さから、太ももまで"},
+{n:"布や髪が舞う着地",r:"SSR",c:"adv",how:["横向きで片ひざをついて低くしゃがむ","指先を床に、顔は伏せる","マフラーや髪を誰かに投げ上げてもらう"],cam:"横から低め。連写で一番広がった瞬間"},
+{n:"座って片脚を真上へ",r:"SSR",c:"adv",how:["台に横向きに座る","片脚をひざを伸ばしたまま真上へ","両手でふくらはぎを支える"],cam:"斜め横、少し下から"},
+{n:"合図で同時に構える",r:"SR",c:"adv",two:true,how:["背中合わせで立つ","「せーの」で同時に外へ構える"],cam:"低めから全身。連写で"},
+{n:"戦闘シーン",r:"SSR",c:"adv",two:true,how:["1人が振りかぶる","もう1人が受け止める・よける"],cam:"横から全身。2人の武器の線を交差させる"},
+{n:"前かがみ上目づかい",r:"R",c:"spicy",how:["前にかがんで両手をひざに","上目づかいでカメラを見る"],cam:"少し上から"},
+{n:"片ひざを立てて座る",r:"R",c:"spicy",how:["床に座って片ひざを立てる","ひざにあごを乗せて流し目"],cam:"低めから"},
+{n:"四つんばいの猫",r:"SR",c:"spicy",how:["両手を地面について猫のように低く","上目づかいでまっすぐカメラ","しっぽがあれば画面に入れる"],cam:"正面・地面すれすれ"},
+{n:"振り返って腰をひねる",r:"SR",c:"spicy",how:["背中をカメラに向ける","腰をひねって肩ごしに振り返る"],cam:"腰の高さから"},
+{n:"仰向けで脚を上げる",r:"SR",c:"spicy",how:["仰向けに寝る","ひざを曲げて脚を上へ","顔だけカメラへ"],cam:"真上か横から"},
+{n:"ベッドでひざ立ち",r:"SR",c:"spicy",how:["ベッドやソファの上でひざ立ち","手を顔の横へ、体は少し斜め"],cam:"引きで、場所の小道具も入れる"},
+{n:"ソファに寝そべって流し目",r:"SR",c:"spicy",how:["ソファに横向きに寝そべる","片手で頭を支えて流し目"],cam:"目の高さから全身"},
+{n:"前に伏せて後ろ向き",r:"SSR",c:"spicy",how:["床に前に伏せる","腰を高くして、肩ごしに振り返る"],cam:"横から少し斜め"}
+];
+const cfgEl=document.getElementById("cfg");
+let cfg={basic:true,adv:true,spicy:false};
+try{cfg=Object.assign(cfg,JSON.parse(cfgEl.textContent))}catch(e){}
+let draft=Object.assign({},cfg);
+let vxBad=false;let hist=[];let cur=null;let busy=false;let owner=false;let artifactNs=null;let msg="";
+const app=document.getElementById("app");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pool=c=>P.filter(p=>c[p.c]);
+function pick(){
+  const list=pool(cfg); if(!list.length) return null;
+  const avail=Object.keys(W).filter(r=>list.some(p=>p.r===r));
+  let tot=avail.reduce((a,r)=>a+W[r],0),x=Math.random()*tot,rr=avail[0];
+  for(const r of avail){x-=W[r];if(x<0){rr=r;break}}
+  const c=list.filter(p=>p.r===rr);
+  let p=c[Math.floor(Math.random()*c.length)];
+  if(cur&&c.length>1&&p===cur) p=c[(c.indexOf(p)+1)%c.length];
+  return p;
+}
+function caps(){
+  const cols=["var(--accent)","var(--lav)","var(--r)","var(--ssr)","var(--sr)","var(--accent)","var(--r)","var(--lav)","var(--ssr)","var(--accent)","var(--sr)"];
+  const pos=[[8,58],[30,66],[52,64],[72,56],[18,38],[40,44],[62,36],[6,18],[48,20],[28,14],[70,14]];
+  return pos.map((p,i)=>`<i class="cap" style="left:${p[0]}%;top:${p[1]}%;--c:${cols[i]}"></i>`).join("");
+}
+function cardHTML(){
+  if(!cur) return `<section class="card" aria-live="polite"><div class="placeholder"><div class="q">？</div><p>ボタンを押すと、今日のポーズが出ます。<br>出たポーズで撮影をリクエストしてね。</p></div></section>`;
+  const p=cur;
+  return `<section class="card pop ${p.r==="SSR"?"ssr":""}" style="--rc:${RC[p.r]}" aria-live="polite">
+  <div class="tags"><span class="rar">${p.r}</span><span class="tag">${CAT[p.c]}</span>${p.two?'<span class="tag">2人ポーズ・併せ</span>':""}${p.c==="spicy"?'<span class="tag sp">プライベート撮影向け</span>':""}</div>
+  <h2>${esc(p.n)}</h2>
+  <ol>${p.how.map(h=>`<li>${esc(h)}</li>`).join("")}</ol>
+  <div class="cam"><b>撮り方：</b>${esc(p.cam)}</div>
+  <div class="proof"><div class="qrbox" id="qrbox" aria-label="マリン用のQRコード"></div><div><b>${vname?esc(vname)+"さんの":""}ガチャ No.${P.indexOf(p)}</b>${vx?"<br>@"+esc(vx):""}<br>撮影のときにこの画面をマリンに見せてね。マリンがQRを読むと、なかよしスタンプが1つたまります。${vname?"":"<br><small>上で名前とXのアカウントを入れると、なかよし度リストに記録されます。</small>"}</div></div></section>`;
+}
+function listHTML(){
+  const list=pool(cfg);
+  const order=["SSR","SR","R","N"];
+  return order.map(r=>list.filter(p=>p.r===r).map(p=>`<div><b style="color:${RC[r]}">${r}</b><span>${esc(p.n)}${p.two?"（2人）":""}</span></div>`).join("")).join("");
+}
+function ownerHTML(){
+  if(!owner) return "";
+  const t=k=>`<label class="tg"><input type="checkbox" id="tg-${k}" data-k="${k}" ${draft[k]?"checked":""}><span>${CAT[k]}</span></label>`;
+  return `<section class="owner"><h3>持ち主だけに見える設定</h3>
+  <div class="tgs">${t("basic")}${t("adv")}${t("spicy")}</div>
+  <p class="msg" style="margin:0">ガチャに入れるポーズを選んで保存すると、QRから見る人全員に反映されます。イベントでは「攻め」をOFF、貸切スタジオではONがおすすめ。</p>
+  <div class="row"><button class="btn small" id="save" ${artifactNs?"":"disabled"}>保存して反映</button></div></section>`;
+}
+function render(){
+  const n=pool(cfg).length;
+  app.innerHTML=`<div class="wrap">
+  <header><div class="eyebrow">COSPLAY POSE GACHA</div><h1>マリンのポーズガチャ</h1>
+  <p class="lead">回して出たポーズで撮ってください。<br>カメラマンさんも、併せのレイヤーさんも、誰でもOK！</p></header>
+  ${ownerHTML()}
+  <section class="vn">
+   <div class="vn-hd"><span class="vn-badge">なかよし度リスト</span><b>に反映されます</b></div>
+   <label for="vname">① あなたの名前</label>
+   <input type="text" id="vname" maxlength="20" value="${esc(vname)}" placeholder="例：〇〇">
+   <label for="vx">② Xのアカウント<span class="opt">できればお願いします</span></label>
+   <input type="text" id="vx" maxlength="60" value="${esc(vx?"@"+vx:"")}" placeholder="例：@xxxx（URLを貼ってもOK）" autocapitalize="off" autocorrect="off" spellcheck="false">
+   ${vxBad?'<span class="bad">Xのアカウントは「@」のあとの英数字で入れてください</span>':""}
+   <ul class="vn-steps"><li>名前とXのアカウントは、マリンの<b>なかよし度リスト（友好度）</b>に記録されます</li><li>撮影のあとマリンが確認すると、<b>ガチャ1回につき1ポイント</b>たまります</li><li>Xのアカウントがあると、あとでどんな人か分かってマリンが安心できます<span class="em">（なかよし度リストに記載・友好度ポイント付与あり）</span></li><li>どちらも入れなくてもガチャは回せます<span class="em">（なかよし度リストには反映しません）</span></li></ul>
+  </section>
+  <section class="machine" id="mc"><div class="dome" aria-hidden="true">${caps()}</div>
+  <div class="slot"><span class="pool">全${n}種</span>・N ${W.N}% / R ${W.R}% / SR ${W.SR}% / SSR ${W.SSR}%</div>
+  <button class="btn" id="pull" ${n?"":"disabled"}>${cur?"もう1回まわす":"ガチャをまわす"}</button></section>
+  ${cardHTML()}
+  ${hist.length>1?`<div class="hist" aria-label="これまでに出たポーズ">${hist.slice(0,-1).reverse().slice(0,8).map(h=>`<span>${h.r}・${esc(h.n)}</span>`).join("")}</div>`:""}
+  <section class="dm"><span>声かけが苦手な方は</span><strong>XのDMでもOK！</strong>
+  <a class="link" href="${X_URL}" target="_blank" rel="noopener">Xをひらく（@yzO8DLeo0kAUBzf）</a>
+  <small>撮った写真をDMで送ってもらえると喜びます。<br>目が合ったら手を挙げるだけでも反応します！</small></section>
+  <details><summary>ガチャに入っているポーズ一覧（${n}種）</summary><div class="list">${listHTML()}</div></details>
+  <p class="note">無理な体勢・人通りの多い場所では、その場で別のポーズに変えることがあります。</p>
+  </div>`;
+  const b=document.getElementById("pull"); if(b) b.onclick=pull;
+  const vn=document.getElementById("vname"); if(vn) vn.onchange=()=>{vname=vn.value.trim().slice(0,20);try{localStorage.setItem("gacha-name",vname)}catch(e){};render()};
+  const vxe=document.getElementById("vx"); if(vxe) vxe.onchange=()=>{const raw=vxe.value.trim();vx=normX(raw);vxBad=!!raw&&!vx;try{localStorage.setItem("gacha-x",vx)}catch(e){};render()};
+  drawQR();
+  app.querySelectorAll(".tg input").forEach(i=>i.onchange=()=>{draft[i.dataset.k]=i.checked});
+  const s=document.getElementById("save"); if(s) s.onclick=save;
+}
+function drawQR(){
+  const box=document.getElementById("qrbox"); if(!box||!cur) return;
+  const url=STAMP_URL+"#g-"+P.indexOf(cur)+"-"+hex(vname)+"-"+hex(vx);
+  if(window.QRCode){try{new QRCode(box,{text:url,width:150,height:150,correctLevel:QRCode.CorrectLevel.M});return}catch(e){}}
+  box.innerHTML='<span style="font-size:12px">No.'+P.indexOf(cur)+'</span>';
+}
+function pull(){
+  if(busy) return; busy=true;
+  const mc=document.getElementById("mc"); mc.classList.add("shake");
+  document.getElementById("pull").disabled=true;
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  setTimeout(()=>{cur=pick(); if(cur) hist.push(cur); busy=false; render();
+    const c=app.querySelector(".card"); if(c) c.scrollIntoView({behavior:reduce?"auto":"smooth",block:"nearest"});},reduce?50:900);
+}
+function buildDoc(c){
+  const st=document.getElementById("st").textContent, main=document.getElementById("main").textContent;
+  const json=JSON.stringify(c).replace(/</g,"\\u003c");
+  const reset=':root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}';
+  return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>'+reset+'</style></head><body>'
+   +'<title>マリンのポーズガチャ</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n'
+   +'<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap">\n'
+   +'<style id="st">'+st+'</style>\n<div id="app"></div>\n<script type="application/json" id="cfg">'+json+'<\/script>\n<script id="main">'+main+'<\/script>'
+   +'</body></html>';
+}
+async function save(){
+  if(!artifactNs) return;
+  if(!draft.basic&&!draft.adv&&!draft.spicy){msg="どれか1つはONにしてください";render();return}
+  msg="保存しています…";render();
+  try{await artifactNs.publish(buildDoc(draft));}
+  catch(e){msg="保存できませんでした（"+(e&&e.code||"エラー")+"）。もう一度試すか、Claudeに頼んでください";render();}
+}
+render();
+})();
+</script>
+
+</body></html>
